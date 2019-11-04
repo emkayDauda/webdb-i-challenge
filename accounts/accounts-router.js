@@ -33,4 +33,18 @@ function idValidator(req, res, next) {
   }
 }
 
+function accountBodyValidator (req, res, next) {
+    const {name, budget} = req.params;
+
+    if (!Object.keys(req.body).length) {
+        res.status(404).json({ error: true, message: "Request body empty" });
+    }
+    else if (!name) res.status(404).json({error: true, message: "Name is required"})
+    else if (!budget) res.status(404).json({error: true, message: "Budget is required"})
+    else {
+        req.valAccBody = {name, budget}
+        next()
+    }
+}
+
 module.exports = accounts;
