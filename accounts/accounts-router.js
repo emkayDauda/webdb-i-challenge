@@ -39,13 +39,32 @@ accounts.post("/", accountBodyValidator, (req, res) => {
     .then(([id]) =>
       res
         .status(200)
-        .json({ error: false, message: "Account created", data: {id: id, ...req.valAccBody} })
+        .json({
+          error: false,
+          message: "Account created",
+          data: { id: id, ...req.valAccBody }
+        })
     )
-    .catch(err =>
-      res
-        .status(500)
-        .json({ error: true, message: err.message })
-    );
+    .catch(err => res.status(500).json({ error: true, message: err.message }));
+});
+
+accounts.put("/:id", idValidator, accountBodyValidator, (req, res) => {
+  db("accounts")
+    .where('id', req.valAccount.id)
+    .update( req.valAccBody)
+    .then(flag => {
+      if (flag) {
+        res.status(200).json({
+          error: false,
+          message: "Updated Successfully",
+          data: {
+            id: req.valAccount.id,
+            ...req.valAccBody
+          }
+        });
+      } else res.status(201).json({ error: true, message: "Failed to update" });
+    })
+    .catch(err => res.status(500).json({ error: true, message: err.message }));
 });
 
 function accountBodyValidator(req, res, next) {
