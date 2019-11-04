@@ -24,7 +24,7 @@ INSERT INTO Customers ("CustomerName", "ContactName", "Address", "City", "Postal
 
 ```js
 UPDATE Customers
-SET PostalCode = "11122" 
+SET PostalCode = "11122"
 where ContactName = "Bilbo Baggins"
 ```
 
