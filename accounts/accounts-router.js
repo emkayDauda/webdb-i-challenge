@@ -49,6 +49,22 @@ accounts.put("/:id", idValidator, accountBodyValidator, (req, res) => {
     .catch(err => res.status(500).json({ error: true, message: err.message }));
 });
 
+accounts.delete('/:id', idValidator, (req, res) => {
+    db('accounts')
+    .where('id', req.valAccount.id)
+    .del()
+    .then(id => {
+        if (id) {
+            res.status(201).json({
+                error: false,
+                message: 'Deleted Successfully',
+                data: req.valAccount
+            })
+        } else res.status(201).json({error: true, message: "Failed to delete!"})
+    })
+    .catch(err => res.status(500).json({ error: true, message: err.message }));
+})
+
 
 function idValidator(req, res, next) {
     const { id } = req.params;
