@@ -10,6 +10,9 @@ accounts.get("/", (req, res) => {
     .catch(err => res.status(500).json({ error: true, message: err.message }));
 });
 
+accounts.get("/:id", idValidator, (req, res) => {
+    res.status(201).json(req.valAccount)
+});
 
 function idValidator(req, res, next) {
   const { id } = req.params;
